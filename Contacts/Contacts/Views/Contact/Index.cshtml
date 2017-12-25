@@ -1,0 +1,59 @@
+﻿@model Contacts.Models.Contact
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Главная</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#checkboxAllID").click(function () {
+                if ($(this).is(":checked"))
+                    $('.checkboxID').prop('checked', true);
+                else
+                    $('.checkboxID').prop('checked', false);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div> 
+        <h2>Контакты</h2>
+        @Html.ActionLink("Добавить контакт","Create")
+        @using(Html.BeginForm("Index", "Contact", FormMethod.Post)) {
+            <table>
+                <tr>
+                    <td><p>Имя</p></td>
+                    <td><p>Фамилия</p></td>
+                    <td><p>День рождения</p></td>
+                    <td><p>Пол</p></td>
+                    <td><p>Возраст</p></td>
+                    <td></td>
+                    <td><input type="checkbox" id="checkboxAllID" /></td>
+                </tr>
+                    @foreach (var c in ViewBag.Contacts)
+                    {
+                        <tr>
+                            <td><p>@c.Name</p></td>
+                            <td><p>@c.Surname</p></td>
+                            <td><p>@c.Birthday</p></td>
+                            <td><p>@c.Sex</p></td>
+                            <td><p>@c.Age</p></td>
+                            <td>@Html.ActionLink("Редактировать", "Edit", new { @c.ID })</td>
+                            <td><input type="checkbox" value="@c.ID" name="contactIDs" class="checkboxID"/></td>
+                        </tr>
+                    }
+            </table>
+            <br />
+            <input type="submit" value="Удалить" />
+        }
+        <br />
+    </div>
+</body>
+</html>
